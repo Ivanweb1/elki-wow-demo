@@ -75,7 +75,7 @@ const sceneIntros={};
 function sceneIntro(id,delay=0){
   document.documentElement.classList.remove('intro');
   if(!window.gsap)return;
-  const q=sel=>gsap.utils.toArray('#'+id+' '+sel), hero=id==='hero', b=hero?1.2:.35;
+  const scene=document.getElementById(id), q=sel=>gsap.utils.toArray(scene.querySelectorAll(sel)), hero=id==='hero', b=hero?1.2:.35;
   if(sceneIntros[id])sceneIntros[id].progress(1).kill();
   const tl=sceneIntros[id]=gsap.timeline({delay});
   if(hero)tl.from(q('.massive .w b'),{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out'},.35);
