@@ -1,5 +1,5 @@
 if('scrollRestoration' in history)history.scrollRestoration='manual';
-const DEMO_TIMES = Object.freeze({ growEnd: 3, wrapEnd: 5.5, heightEnd: 8, roomEnd: 11, orderEnd: 12, returnEnd: 13 });
+const DEMO_TIMES = Object.freeze({ growEnd: 3.2, wrapEnd: 5.5, heightEnd: 8, roomEnd: 11, orderEnd: 12, returnEnd: 13 });
 const PRICE_POINTS = [[120,3900],[150,4900],[180,5900],[210,7400],[250,9900]];
 const POSTERS = ['frames/0-sprout.png','frames/1-tree.png','frames/2-net.png','frames/3-room.png'];
 const SEQUENCES = { grow: 'assets/seq/1/manifest.json', wrap: 'assets/seq/2/manifest.json', room: 'assets/seq/3/manifest.json' };
@@ -91,8 +91,6 @@ function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-day
 function order(){if(state.ordered)return;state.ordered=true;const button=$('#order-button');button.innerHTML='Ёлка ваша ✓';$('.delivery-days [data-day="27"]').classList.add('yours');const field=$('#spark-field');for(let i=0;i<28;i++){const spark=document.createElement('i');spark.className='spark';const a=Math.random()*Math.PI*2,r=35+Math.random()*130;spark.style.setProperty('--dx',Math.cos(a)*r+'px');spark.style.setProperty('--dy',Math.sin(a)*r+'px');field.append(spark);setTimeout(()=>spark.remove(),950);}if(!demoMode&&!capture){setTimeout(()=>{$('#order').classList.remove('warm');state.room=0;render();},1250);}}
 function showHero(){if(window.gsap){
   gsap.from('.massive .w b',{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out',delay:.35});
-  gsap.from('.hero-panel',{yPercent:100,duration:.9,ease:'power3.out',delay:1.5});
-  gsap.from('.hero .price',{yPercent:100,duration:.9,ease:'power3.out',delay:1.7});
   gsap.from('.hero .delivery img',{y:120,rotate:8,opacity:0,duration:.9,ease:'back.out(1.6)',delay:1.85});
   gsap.from('.hero .delivery a',{opacity:0,duration:.5,delay:2.2});
   gsap.from('.hero-cta',{opacity:0,scale:.7,duration:.6,ease:'back.out(2)',delay:2.05});
@@ -143,7 +141,7 @@ async function init(){
     return;
   }
   showHero();
-  if(demoMode)demo();else{setupScroll();setupLenis();let start=performance.now();function grow(now){state.grow=clamp((now-start)/2700);render();if(state.grow<1)requestAnimationFrame(grow)}requestAnimationFrame(grow);}
+  if(demoMode)demo();else{setupScroll();setupLenis();let start=performance.now();function grow(now){state.grow=clamp((now-start)/3200);render();if(state.grow<1)requestAnimationFrame(grow)}requestAnimationFrame(grow);}
   addEventListener('resize',render);
 }
 addEventListener('DOMContentLoaded',init);
