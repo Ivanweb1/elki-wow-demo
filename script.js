@@ -94,7 +94,7 @@ function demo(){
     if(t>=DEMO_TIMES.wrapEnd&&t<DEMO_TIMES.heightEnd)setHeight(Math.round(120+90*ease((t-DEMO_TIMES.wrapEnd)/(DEMO_TIMES.heightEnd-DEMO_TIMES.wrapEnd))));
     if(t>=DEMO_TIMES.heightEnd)$('#order').classList.toggle('warm',t<DEMO_TIMES.orderEnd);
     if(t>=DEMO_TIMES.roomEnd&&!state.ordered)order();
-    if(t>=DEMO_TIMES.orderEnd&&!returnStarted){returnStarted=true;scrollTo({top:0,behavior:'smooth'});$('#order').classList.remove('warm');}
+    if(t>=DEMO_TIMES.orderEnd&&!returnStarted){returnStarted=true;$('#hero .hero-cta').style.transform='translateX(-50%)';scrollTo({top:0,behavior:'smooth'});$('#order').classList.remove('warm');}
     render();if(t<DEMO_TIMES.returnEnd)requestAnimationFrame(tick);
   }requestAnimationFrame(tick);
 }
