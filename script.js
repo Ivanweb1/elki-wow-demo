@@ -70,22 +70,31 @@ function render() {
 }
 function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-days').innerHTML=Array.from({length:12},(_,i)=>{const day=i+20;return `<span data-day="${day}" class="${busy.has(day)?'busy':''}">${day}</span>`}).join('');}
 function order(){if(state.ordered)return;state.ordered=true;const button=$('#order-button');button.innerHTML='Ёлка ваша ✓';$('.delivery-days [data-day="27"]').classList.add('yours');const field=$('#spark-field');for(let i=0;i<28;i++){const spark=document.createElement('i');spark.className='spark';const a=Math.random()*Math.PI*2,r=35+Math.random()*130;spark.style.setProperty('--dx',Math.cos(a)*r+'px');spark.style.setProperty('--dy',Math.sin(a)*r+'px');field.append(spark);setTimeout(()=>spark.remove(),950);}}
-function showHero(){if(window.gsap){
-  gsap.from('.massive .w b',{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out',delay:.35});
-  // Низ экрана выезжает одним блоком: белая панель и цена, следом ёлка в сетке и кнопка.
-  gsap.from('.hero .hero-panel, .hero .price',{yPercent:110,duration:.9,ease:'power3.out',stagger:.12,delay:1.55});
-  gsap.from('.hero .price .species-dots img',{scale:0,duration:.45,ease:'back.out(2)',stagger:.08,delay:2.2});
-  gsap.from('.hero .delivery img',{y:120,rotate:8,opacity:0,duration:.9,ease:'back.out(1.6)',delay:1.85});
-  gsap.from('.hero .delivery a',{opacity:0,duration:.5,delay:2.2});
-  gsap.from('.hero-cta',{opacity:0,scale:.7,duration:.6,ease:'back.out(2)',delay:2.05});
-  gsap.from('.hero .callout',{opacity:0,x:i=>i?40:-40,delay:2.1,duration:.7});
-  gsap.from('.hero .callout i',{scaleX:0,transformOrigin:i=>i?'right center':'left center',delay:2.3,duration:.7});
-}document.documentElement.classList.remove('intro');}
+// Вход на экран: заголовок → низ (панель и карточки) выезжает блоком → картинки, кнопка, подписи.
+const sceneIntros={};
+function sceneIntro(id,delay=0){
+  document.documentElement.classList.remove('intro');
+  if(!window.gsap)return;
+  const q=sel=>gsap.utils.toArray('#'+id+' '+sel), hero=id==='hero', b=hero?1.2:.35;
+  if(sceneIntros[id])sceneIntros[id].progress(1).kill();
+  const tl=sceneIntros[id]=gsap.timeline({delay});
+  if(hero)tl.from(q('.massive .w b'),{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out'},.35);
+  else tl.from(q('.scene-title'),{y:60,opacity:0,duration:.9,ease:'power3.out'},0);
+  tl.from(q('.panel, .price, .card-left'),{yPercent:110,duration:.9,ease:'power3.out',stagger:.1},b)
+    .from(q('.card-left .pop, .delivery img'),{y:120,rotate:8,opacity:0,duration:.9,ease:'back.out(1.6)'},b+.3)
+    .from(q('.panel-cta'),{opacity:0,scale:.7,duration:.6,ease:'back.out(2)',clearProps:'transform,opacity'},b+.5)
+    .from(q('.callout'),{opacity:0,x:i=>i?40:-40,duration:.7},b+.55)
+    .from(q('.species-dots img, .steps i, .steps em, .truck'),{scale:0,duration:.45,ease:'back.out(2)',stagger:.07},b+.65)
+    .from(q('.delivery a, .steps-labels, .panel p, .panel-days > *'),{opacity:0,duration:.5},b+.65)
+    .from(q('.callout i'),{scaleX:0,transformOrigin:i=>i?'right center':'left center',duration:.7},b+.75);
+}
+const showHero=()=>sceneIntro('hero');
 // Поэкранный скролл: колесо, свайп и клавиши листают по одному экрану, ролик экрана проигрывается при входе.
 const SLIDE_MS=950, WHEEL_COOLDOWN=450;
 const SCENE_CLIPS={hero:{key:'grow',duration:3.2,ease:'none'},wrap:{key:'wrap',duration:2.4,ease:'power1.inOut'},order:{key:'room',duration:2.8,ease:'power1.inOut'}};
 function playScene(id,instant=false){
   const clip=SCENE_CLIPS[id];if(!clip)return;
+  sceneIntro(id,instant?0:SLIDE_MS/1000*.45);
   const {key}=clip, warm=()=>{if(key==='room')$('#order').classList.toggle('warm',state.room>.52);};
   if(id==='order'&&state.ordered)return;
   if(!window.gsap){state[key]=1;warm();render();return;}
@@ -166,8 +175,7 @@ async function init(){
     render();scrollTo(0,0);
     return;
   }
-  showHero();
-  if(demoMode)demo();else setupFullpage();
+  if(demoMode){showHero();demo();}else setupFullpage();
   addEventListener('resize',render);
 }
 addEventListener('DOMContentLoaded',init);
