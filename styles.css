@@ -182,3 +182,8 @@ footer{bottom:8px}
 .callout i{height:2px}
 .callout i::after{top:50%;right:-7px;width:14px;height:14px;transform:translateY(-50%);border-width:3px}
 .callout-right i::after{right:-7px}
+/* кружки видов: сплошной фон, ровный нахлёст с одной стороны */
+.species-dots img,.species-dots img:not(.on){opacity:1;background:#f1efe8;position:relative;margin-left:-14px}
+.species-dots img:first-child{margin-left:0;z-index:3}
+.species-dots img:nth-child(2){z-index:2}
+.species-dots img:nth-child(3){z-index:1}
