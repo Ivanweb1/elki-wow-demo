@@ -43,20 +43,22 @@
         <div class="callout callout-left"><strong>Срубим</strong><small>за день до доставки</small><i></i></div>
         <div class="callout callout-right"><strong>Упакуем в сетку</strong><small>ни одна ветка не сломается</small><i></i></div>
         <div class="panel"><p>Ёлка приедет такой же,<br>как стояла в лесу</p></div>
-        <div class="price card-green"><small>от леса до двери</small><b>1 день</b><span>срубим накануне</span></div>
+        <div class="card-left"><img class="pop" src="assets/img/tree-wrapped.png" alt=""><small>упаковка</small><b>Сетка</b><span>бесплатно, ветки целы</span></div>
+        <div class="price card-green"><small>от леса до двери</small><b>1 день</b><div class="steps" aria-hidden="true"><i style="background-image:url(frames/1-tree.png)"></i><em></em><i style="background-image:url(frames/2-net.png)"></i><em></em><i style="background-image:url(frames/3-room.png)"></i></div><div class="steps-labels"><span>лес</span><span>сетка</span><span>дом</span></div></div>
       </div>
     </section>
 
     <section id="height" class="scene height">
       <div class="scene-inner">
-        <h2 class="scene-title">Ваша высота</h2>
+        <h2 class="scene-title">Выбрать высоту</h2>
         <div class="species" role="group" aria-label="Вид ёлки">
           <button class="species-item active" data-species="nordmann"><span>01</span><b>Нордманн</b><small>мягкая хвоя</small></button>
           <button class="species-item" data-species="blue"><span>02</span><b>Голубая ель</b><small>серебристый оттенок</small></button>
           <button class="species-item" data-species="pine"><span>03</span><b>Сосна</b><small>длинные иглы</small></button>
         </div>
         <div class="tree-picker"><img id="picker-tree" src="assets/img/tree-nordmann.png" alt="Пихта Нордманна"><div class="ruler"><span id="ruler-value">180 см</span><i></i></div></div>
-        <div class="price card-green"><small id="current-species">Нордманн</small><b id="current-price">5 900 ₽</b><span id="current-height">180 см</span></div>
+        <div class="card-left ceiling"><small>под потолок 2,7 м</small><div class="ceil"><div class="ceil-room"><i class="ceil-line"></i><div class="ceil-tree" id="ceil-tree"></div><span class="ceil-person"></span></div></div><b id="ceil-gap">запас 90 см</b></div>
+        <div class="price card-green"><small id="current-species">Нордманн</small><b id="current-price">5 900 ₽</b><span id="current-height">180 см</span><div class="species-dots" id="price-dots"><img class="on" src="assets/img/tree-nordmann.png" alt=""><img src="assets/img/tree-blue.png" alt=""><img src="assets/img/tree-pine.png" alt=""></div></div>
         <div class="panel panel-range"><div class="range-wrap"><span>120 см</span><input type="range" id="height-range" min="120" max="250" value="180" step="1" aria-label="Высота ёлки"><span>250 см</span></div></div>
         <a class="pill red height-cta panel-cta" href="#order">Выбрать эту ёлку <em class="toggle"><i></i></em></a>
       </div>
@@ -71,7 +73,8 @@
         <div class="panel panel-days"><small>СВОБОДНЫЕ ДНИ ДОСТАВКИ В ДЕКАБРЕ</small><div class="delivery-days" aria-label="Дни доставки в декабре"></div></div>
         <button id="order-button" class="pill red order-cta panel-cta">Заказать к 31.12 — от 3 900 ₽ <em class="toggle"><i></i></em></button>
         <div id="spark-field" aria-hidden="true"></div>
-        <div class="price card-green"><small>доставка</small><b>20–31</b><span>декабря, в выбранный день</span></div>
+        <div class="card-left"><img class="pop" src="assets/img/tree-nordmann.png" alt=""><small>в заказе</small><b>Нордманн</b><span>180 см · 5 900 ₽</span></div>
+        <div class="price card-green"><svg class="truck" viewBox="0 0 48 28" fill="none" stroke="#F2B544" stroke-width="1.8" stroke-linejoin="round"><path d="M2 4h26v16H2zM28 10h10l6 6v4H28z"/><circle cx="11" cy="22" r="3.5" fill="#173a2b"/><circle cx="36" cy="22" r="3.5" fill="#173a2b"/></svg><small>доставка</small><b>20–31</b><span>декабря, в выбранный день</span></div>
       </div>
     </section>
   </main>

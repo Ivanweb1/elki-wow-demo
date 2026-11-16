@@ -116,3 +116,32 @@ footer{bottom:8px}
 .logo{letter-spacing:-.02em}
 .price b,.price-panel strong{letter-spacing:-.025em}
 .callout strong,.panel p{letter-spacing:-.015em}
+/* v4: карточки слева и визуал в карточках справа */
+.card-left{position:absolute;z-index:6;left:8%;bottom:-1px;width:clamp(230px,20vw,300px);min-height:clamp(170px,22vh,225px);padding:30px 26px 22px;border-radius:24px 24px 0 0;background:linear-gradient(160deg,#123f2b 0%,#0a2f1f 60%,#072619 100%);border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.card-left small{font-size:14px;color:#cfe0d4}
+.card-left b{font-size:clamp(34px,3vw,46px);font-weight:500;letter-spacing:-.025em;line-height:1.05}
+.card-left span{font-size:14px;color:#cfe0d4;margin-top:6px}
+.card-left .pop{position:absolute;right:-18px;top:-96px;height:150px;transform:rotate(10deg);filter:drop-shadow(0 16px 20px rgba(0,0,0,.4));pointer-events:none}
+.card-left:has(.pop){padding-right:70px;align-items:flex-start;text-align:left}
+.order.warm .card-left{background:linear-gradient(160deg,#3d2a14 0%,#2a1d0e 60%,#1e1610 100%)}
+.steps{display:flex;align-items:center;margin-top:14px}
+.steps i{width:50px;height:50px;border-radius:50%;border:2px solid #fff;background-size:330%;background-position:50% 48%;background-color:#0a3322;box-shadow:0 6px 14px rgba(0,0,0,.3)}
+.steps em{width:22px;height:0;border-top:2px dotted var(--gold)}
+.steps-labels{display:flex;gap:26px;margin-top:6px;font-size:11px;color:#cfe0d4;letter-spacing:.06em}
+.steps-labels span{width:46px;text-align:center}
+.ceiling{align-items:flex-start;text-align:left;padding-right:110px}
+.ceil{position:absolute;right:24px;bottom:22px;top:26px;width:70px}
+.ceil-room{position:relative;height:100%;border-bottom:2px solid rgba(255,255,255,.5)}
+.ceil-line{position:absolute;left:-6px;right:-6px;top:0;border-top:2px dashed var(--gold)}
+.ceil-tree{position:absolute;bottom:0;left:6px;width:40px;height:67%;background:linear-gradient(#3a8a5c,#1f5c3c);clip-path:polygon(50% 0,100% 92%,58% 92%,58% 100%,42% 100%,42% 92%,0 92%);transition:height .3s}
+.ceil-person{position:absolute;bottom:0;right:2px;width:12px;height:63%;background:rgba(255,255,255,.55);border-radius:6px 6px 2px 2px}
+.ceiling b{font-size:clamp(26px,2.3vw,34px);margin-top:auto}
+.ceiling small{max-width:110px}
+.species-dots img.on{border-color:var(--gold)}
+.species-dots img:not(.on){opacity:.75}
+.price .truck{width:48px;height:28px;margin-bottom:8px}
+.ceiling{padding-right:96px}
+.ceiling small{max-width:none;white-space:nowrap}
+.ceiling b{font-size:clamp(24px,2vw,30px);white-space:nowrap}
+.ceil{width:56px;top:52px}
+.ceil-tree{width:32px;left:2px}

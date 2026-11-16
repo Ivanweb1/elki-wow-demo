@@ -76,6 +76,7 @@ function setHeight(height) {
   $('#current-price').textContent=new Intl.NumberFormat('ru-RU').format(priceAt(height))+' ₽';
   $('#picker-tree').style.height=(74+(height-120)/130*26)+'%';
   $('#height-range').style.setProperty('--fill',((height-120)/130*100)+'%');
+  const ct=$('#ceil-tree');if(ct){ct.style.height=(height/270*100)+'%';const gap=270-height;$('#ceil-gap').textContent=gap>0?'запас '+gap+' см':'упрётся в потолок';}
 }
 function setupPicker(){
   $('#height-range').addEventListener('input',e=>setHeight(e.target.value));setHeight(180);
@@ -83,7 +84,7 @@ function setupPicker(){
   document.querySelectorAll('.species-item').forEach(button=>button.addEventListener('click',()=>{
     document.querySelector('.species-item.active')?.classList.remove('active');button.classList.add('active');
     const img=$('#picker-tree');img.style.opacity='0';img.style.transform='rotateY(20deg)';
-    setTimeout(()=>{img.src=paths[button.dataset.species];img.alt=button.querySelector('b').textContent;const sp=$('#current-species');if(sp)sp.textContent=img.alt;img.style.opacity='1';img.style.transform='rotateY(0deg)';},180);
+    setTimeout(()=>{img.src=paths[button.dataset.species];img.alt=button.querySelector('b').textContent;const sp=$('#current-species');if(sp)sp.textContent=img.alt;const dots=document.querySelectorAll('#price-dots img');dots.forEach((d,i)=>d.classList.toggle('on',i===[...document.querySelectorAll('.species-item')].indexOf(button)));img.style.opacity='1';img.style.transform='rotateY(0deg)';},180);
   }));
 }
 function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-days').innerHTML=Array.from({length:12},(_,i)=>{const day=i+20;return `<span data-day="${day}" class="${busy.has(day)?'busy':''}">${day}</span>`}).join('');}
