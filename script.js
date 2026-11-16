@@ -83,7 +83,7 @@ function setupPicker(){
   document.querySelectorAll('.species-item').forEach(button=>button.addEventListener('click',()=>{
     document.querySelector('.species-item.active')?.classList.remove('active');button.classList.add('active');
     const img=$('#picker-tree');img.style.opacity='0';img.style.transform='rotateY(20deg)';
-    setTimeout(()=>{img.src=paths[button.dataset.species];img.alt=button.querySelector('b').textContent;img.style.opacity='1';img.style.transform='rotateY(0deg)';},180);
+    setTimeout(()=>{img.src=paths[button.dataset.species];img.alt=button.querySelector('b').textContent;const sp=$('#current-species');if(sp)sp.textContent=img.alt;img.style.opacity='1';img.style.transform='rotateY(0deg)';},180);
   }));
 }
 function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-days').innerHTML=Array.from({length:12},(_,i)=>{const day=i+20;return `<span data-day="${day}" class="${busy.has(day)?'busy':''}">${day}</span>`}).join('');}
