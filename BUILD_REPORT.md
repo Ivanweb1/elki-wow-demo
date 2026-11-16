@@ -1,18 +1,11 @@
 # Отчёт о сборке «Хвоя»
 
-## Статус публикации
+## Публикация
 
-Сайт собран и проверен локально в Chrome при 1440×900. Публичный репозиторий и GitHub Pages пока не созданы: `gh auth status` сообщает, что токен аккаунта `Ivanweb1` недействителен. Подключённый GitHub подтвердил аккаунт, но не предоставляет создание репозитория или настройку Pages. Ссылок на опубликованный сайт и репозиторий пока нет.
+- Сайт: https://ivanweb1.github.io/elki-wow-demo/
+- Публичный репозиторий: https://github.com/Ivanweb1/elki-wow-demo
 
-Для завершения публикации после `gh auth login -h github.com` из этой папки:
-
-```bash
-gh repo create elki-wow-demo --public --source . --push
-gh api -X POST repos/Ivanweb1/elki-wow-demo/pages -f 'source[branch]=main' -f 'source[path]=/'
-gh api repos/Ivanweb1/elki-wow-demo/pages/builds/latest
-```
-
-Ожидаемые адреса после успешной публикации: `https://Ivanweb1.github.io/elki-wow-demo/` и `https://github.com/Ivanweb1/elki-wow-demo` (пока не проверены).
+GitHub Pages собран из `main` и сообщает статус `built`. Публичные HTML, CSS, JS, `frames/1-tree.png` и `assets/img/tree-nordmann.png` отвечают HTTP 200. Первый экран опубликованного сайта открыт и визуально проверен в Chrome при 1440×900.
 
 ## Изображения
 
@@ -23,9 +16,9 @@ gh api repos/Ivanweb1/elki-wow-demo/pages/builds/latest
 - Четыре экрана, ползунок 120–250 см, интерполированная цена и переключение трёх видов ёлок работают.
 - Пока роликов нет, три перехода используют постеры с кроссфейдом и лёгким масштабированием. Скролл управляет экранами 2 и 4 через GSAP ScrollTrigger.
 - Когда `video/1-grow.mp4`, `2-wrap.mp4`, `3-room.mp4` появятся, запустить `bash tools/build-seq.sh`. Скрипт создаст кадры и `manifest.json` в `assets/seq/1`, `2`, `3`; сайт загрузит их без изменения кода.
-- `?demo=1` запускает 13-секундную последовательность после загрузки ресурсов, скрывает курсорную прокрутку и возвращается к первому экрану. Для записи: `python tools/record.py https://Ivanweb1.github.io/elki-wow-demo/ --out reel.webm` после публикации и установки Playwright (`pip install playwright`, `playwright install chromium`). Локально скрипту можно передать URL локального HTTP-сервера.
+- `?demo=1` запускает 13-секундную последовательность после загрузки ресурсов, скрывает полосу прокрутки и возвращается к первому экрану. Для записи: `python tools/record.py https://ivanweb1.github.io/elki-wow-demo/ --out reel.webm` после установки Playwright (`pip install playwright`, `playwright install chromium`). Локально скрипту можно передать URL локального HTTP-сервера.
 - Контрольные снимки: `shots/1-hero.png`, `2-wrap.png`, `3-height.png`, `4-room.png`, `5-ordered.png`. Снимки не включены в Git из-за `.gitignore`.
 
 ## Проверки
 
-`node --check script.js` прошёл. Все 5 снимков получены в локальном headless Chrome при 1440×900; тексты не перекрывают ёлку. Доступность опубликованного URL и загрузку ресурсов на GitHub Pages проверить можно только после авторизации и публикации.
+`node --check script.js` прошёл. Все 5 снимков получены в локальном headless Chrome при 1440×900; тексты не перекрывают ёлку. Публичная загрузка основных ресурсов и первый экран также проверены.
