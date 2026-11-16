@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Хвоя — Живые ёлки к 31 декабря</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#hero">Хвоя<span class="logo-dot">.</span></a>
+    <nav aria-label="Разделы"><a href="#wrap">Свежая. Целая.</a><a href="#height">Ваша высота</a><a href="#order">Остаётся украсить</a></nav>
+    <a class="header-button" href="#height">Выбрать ёлку <span>↗</span></a>
+  </header>
+
+  <main>
+    <section id="hero" class="scene hero">
+      <div class="scene-inner">
+        <div class="eyebrow">ЖИВЫЕ ЁЛКИ К 31 ДЕКАБРЯ <span>01 / 04</span></div>
+        <h1 class="massive"><span>Ё</span><span>Л</span><span>К</span><span>И</span></h1>
+        <canvas class="scene-canvas" id="canvas-grow" aria-label="Ёлка вырастает из снега"></canvas>
+        <div class="callout callout-left"><strong>Живые ёлки</strong><small>к 31 декабря</small><i></i></div>
+        <div class="callout callout-right"><strong>Привезём</strong><small>и установим</small><i></i></div>
+        <a class="pill primary hero-cta" href="#height">Выбрать ёлку <span>↗</span></a>
+        <div class="corner-card delivery"><img src="assets/img/tree-wrapped.png" alt="Ёлка в сетке"><span>БЕСПЛАТНАЯ ДОСТАВКА<br>ОТ 2 ЁЛОК</span></div>
+        <div class="corner-card price"><span>от <b>3 900 ₽</b></span><small>ёлка 120 см</small></div>
+      </div>
+    </section>
+
+    <section id="wrap" class="scene wrap">
+      <div class="scene-inner">
+        <div class="eyebrow">СРУБИМ ЗА ДЕНЬ ДО ДОСТАВКИ <span>02 / 04</span></div>
+        <h2 class="scene-title">Свежая. Целая.</h2>
+        <canvas class="scene-canvas" id="canvas-wrap" aria-label="Ёлка упаковывается в сетку"></canvas>
+        <div class="callout callout-left"><strong>Срубим</strong><small>за день до доставки</small><i></i></div>
+        <div class="callout callout-right"><strong>Упакуем в сетку</strong><small>ни одна ветка не сломается</small><i></i></div>
+        <div class="bottom-rule"><span>01</span><div></div><span>02</span></div>
+      </div>
+    </section>
+
+    <section id="height" class="scene height">
+      <div class="scene-inner">
+        <div class="eyebrow">ВАША ВЫСОТА <span>03 / 04</span></div>
+        <h2 class="scene-title">Ваша высота</h2>
+        <div class="species" role="group" aria-label="Вид ёлки">
+          <button class="species-item active" data-species="nordmann"><span>01</span><b>Нордманн</b><small>мягкая хвоя</small></button>
+          <button class="species-item" data-species="blue"><span>02</span><b>Голубая ель</b><small>серебристый оттенок</small></button>
+          <button class="species-item" data-species="pine"><span>03</span><b>Сосна</b><small>длинные иглы</small></button>
+        </div>
+        <div class="tree-picker"><img id="picker-tree" src="assets/img/tree-nordmann.png" alt="Пихта Нордманна"><div class="ruler"><span id="ruler-value">180 см</span><i></i></div></div>
+        <div class="price-panel"><small>НОРДМАНН</small><strong id="current-price">5 900 ₽</strong><span>Нордманн · <span id="current-height">180 см</span></span></div>
+        <div class="range-wrap"><span>120 см</span><input type="range" id="height-range" min="120" max="250" value="180" step="1" aria-label="Высота ёлки"><span>250 см</span></div>
+        <a class="pill primary height-cta" href="#order">Выбрать ёлку <span>↗</span></a>
+      </div>
+    </section>
+
+    <section id="order" class="scene order">
+      <div class="scene-inner">
+        <div class="eyebrow">ОСТАЁТСЯ УКРАСИТЬ <span>04 / 04</span></div>
+        <h2 class="scene-title">Остаётся украсить</h2>
+        <canvas class="scene-canvas" id="canvas-room" aria-label="Ёлка в гостиной"></canvas>
+        <div class="callout callout-left"><strong>Занесём</strong><small>и поставим на подставку</small><i></i></div>
+        <div class="callout callout-right"><strong>Уберём сетку</strong><small>и упаковку</small><i></i></div>
+        <button id="order-button" class="pill primary order-cta">Заказать к 31.12 — от 3 900 ₽ <span>↗</span></button>
+        <div id="spark-field" aria-hidden="true"></div>
+        <div class="delivery-days" aria-label="Дни доставки в декабре"></div>
+        <footer>Хвоя · Демо-сайт. Цены и сроки условные</footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
