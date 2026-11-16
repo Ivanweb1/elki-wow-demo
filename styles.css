@@ -111,3 +111,8 @@ footer{bottom:8px}
 .height .tree-picker{top:262px;height:50vh}
 .panel .delivery-days span.yours::after{display:none}
 .order footer{left:8.5%;width:auto;text-align:left;bottom:14px}
+/* буквы не слипаются */
+.hero .massive,.scene-title{letter-spacing:-.02em}
+.logo{letter-spacing:-.02em}
+.price b,.price-panel strong{letter-spacing:-.025em}
+.callout strong,.panel p{letter-spacing:-.015em}
