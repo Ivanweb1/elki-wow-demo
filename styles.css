@@ -187,3 +187,14 @@ footer{bottom:8px}
 .species-dots img:first-child{margin-left:0;z-index:3}
 .species-dots img:nth-child(2){z-index:2}
 .species-dots img:nth-child(3){z-index:1}
+/* поэкранный скролл */
+html.fp,html.fp body{height:100%;overflow:hidden;overscroll-behavior:none}
+html.fp{scroll-behavior:auto}
+html.fp main{will-change:transform;transition:transform .95s cubic-bezier(.77,0,.18,1)}
+html.fp .scene{height:100vh;height:100svh;touch-action:none}
+html.fp .scene input[type=range]{touch-action:pan-x}
+.fp-dots{position:fixed;z-index:21;right:clamp(14px,1.8vw,30px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px}
+.fp-dots button{width:10px;height:10px;padding:0;border-radius:50%;border:1.5px solid rgba(247,247,244,.6);background:transparent;transition:background .3s,border-color .3s,transform .3s}
+.fp-dots button:hover{border-color:var(--gold)}
+.fp-dots button.on{background:var(--gold);border-color:var(--gold);transform:scale(1.25)}
+@media(prefers-reduced-motion:reduce){html.fp main{transition-duration:.01s}}

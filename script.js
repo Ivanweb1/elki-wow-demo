@@ -97,17 +97,59 @@ function showHero(){if(window.gsap){
   gsap.from('.hero .callout',{opacity:0,x:i=>i?40:-40,delay:2.1,duration:.7});
   gsap.from('.hero .callout i',{scaleX:0,transformOrigin:i=>i?'right center':'left center',delay:2.3,duration:.7});
 }}
-function setupScroll(){
-  if(!window.gsap||!window.ScrollTrigger)return;
-  gsap.registerPlugin(ScrollTrigger);
-  [['#wrap','wrap'],['#order','room']].forEach(([selector,key])=>{
-    ScrollTrigger.create({trigger:selector,start:'top top',end:'+=110%',pin:true,scrub:true,onUpdate:self=>{
-      if(demoMode)return;state[key]=self.progress;if(key==='room')$(selector).classList.toggle('warm',self.progress>.52);render();
-    }});
-  });
-  gsap.from('.height .species-item, .height .price-panel, .height .range-wrap',{scrollTrigger:{trigger:'#height',start:'top 65%'},opacity:0,y:22,stagger:.09,duration:.7});
+// Поэкранный скролл: колесо, свайп и клавиши листают по одному экрану, ролик экрана проигрывается при входе.
+const SLIDE_MS=950, WHEEL_COOLDOWN=450;
+function playScene(id){
+  if(id==='wrap'||id==='order'){
+    const key=id==='wrap'?'wrap':'room';
+    if(id==='order'&&state.ordered)return;
+    if(window.gsap){gsap.killTweensOf(state,key);gsap.fromTo(state,{[key]:0},{[key]:1,duration:id==='wrap'?2.4:2.8,delay:.25,ease:'power1.inOut',onUpdate:()=>{if(key==='room')$('#order').classList.toggle('warm',state.room>.52);render();}});}
+    else{state[key]=1;if(key==='room')$('#order').classList.add('warm');render();}
+  }
+  if(id==='height'&&window.gsap&&!playScene.heightShown){playScene.heightShown=true;gsap.from('.height .species-item, .height .range-wrap',{opacity:0,y:22,stagger:.09,duration:.7,delay:.3});}
 }
-function setupLenis(){if(!window.Lenis||demoMode)return;const lenis=new Lenis({duration:1.1,smoothWheel:true});function raf(t){lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);}
+function setupFullpage(){
+  const root=document.documentElement, main=$('main'), scenes=[...document.querySelectorAll('.scene')];
+  let index=0, lockUntil=0;
+  root.classList.add('fp');scrollTo(0,0);
+  const dots=document.createElement('nav');dots.className='fp-dots';dots.setAttribute('aria-label','Экраны');
+  dots.innerHTML=scenes.map((s,i)=>`<button type="button" aria-label="Экран ${i+1}"></button>`).join('');
+  document.body.append(dots);
+  const dotButtons=[...dots.children];dotButtons.forEach((b,i)=>b.addEventListener('click',()=>goTo(i)));
+  const place=instant=>{main.style.transition=instant?'none':'';main.style.transform=`translate3d(0,${-scenes[index].offsetTop}px,0)`;};
+  function goTo(i,instant=false){
+    i=Math.max(0,Math.min(scenes.length-1,i));
+    if(i===index&&!instant)return;
+    index=i;lockUntil=performance.now()+(instant?0:SLIDE_MS+WHEEL_COOLDOWN);
+    place(instant);
+    dotButtons.forEach((b,k)=>b.classList.toggle('on',k===i));
+    root.dataset.scene=scenes[i].id;
+    if(history.replaceState)history.replaceState(null,'',i?'#'+scenes[i].id:location.pathname+location.search);
+    playScene(scenes[i].id);
+  }
+  const step=dir=>{if(performance.now()<lockUntil)return;goTo(index+dir);};
+  addEventListener('wheel',e=>{e.preventDefault();if(Math.abs(e.deltaY)<8)return;step(e.deltaY>0?1:-1);},{passive:false});
+  let touchY=null;
+  addEventListener('touchstart',e=>{touchY=e.target.closest('input[type=range]')?null:e.touches[0].clientY;},{passive:true});
+  addEventListener('touchmove',e=>{if(touchY!==null)e.preventDefault();},{passive:false});
+  addEventListener('touchend',e=>{if(touchY===null)return;const dy=touchY-e.changedTouches[0].clientY;touchY=null;if(Math.abs(dy)>45)step(dy>0?1:-1);});
+  addEventListener('keydown',e=>{
+    if(e.target.closest('input,textarea,select'))return;
+    const next=['ArrowDown','PageDown'].includes(e.key)||(e.key===' '&&!e.shiftKey&&!e.target.closest('button,a'));
+    const prev=['ArrowUp','PageUp'].includes(e.key)||(e.key===' '&&e.shiftKey);
+    if(next||prev){e.preventDefault();step(next?1:-1);}
+    else if(e.key==='Home'){e.preventDefault();goTo(0);}
+    else if(e.key==='End'){e.preventDefault();goTo(scenes.length-1);}
+  });
+  document.addEventListener('click',e=>{
+    const link=e.target.closest('a[href^="#"]');if(!link)return;
+    const target=scenes.findIndex(s=>'#'+s.id===link.getAttribute('href'));
+    if(target<0)return;e.preventDefault();goTo(target);
+  });
+  addEventListener('resize',()=>place(true));
+  const start=scenes.findIndex(s=>'#'+s.id===location.hash);
+  goTo(start>0?start:0,true);dotButtons[index].classList.add('on');
+}
 function demo(){
   document.body.classList.add('demo');scrollTo(0,0);
   const positions={wrap:$('#wrap').offsetTop,height:$('#height').offsetTop,order:$('#order').offsetTop};
@@ -141,7 +183,7 @@ async function init(){
     return;
   }
   showHero();
-  if(demoMode)demo();else{setupScroll();setupLenis();let start=performance.now();function grow(now){state.grow=clamp((now-start)/3200);render();if(state.grow<1)requestAnimationFrame(grow)}requestAnimationFrame(grow);}
+  if(demoMode)demo();else{setupFullpage();let start=performance.now();function grow(now){state.grow=clamp((now-start)/3200);render();if(state.grow<1)requestAnimationFrame(grow)}requestAnimationFrame(grow);}
   addEventListener('resize',render);
 }
 addEventListener('DOMContentLoaded',init);
