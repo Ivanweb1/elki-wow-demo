@@ -72,12 +72,15 @@ function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-day
 function order(){if(state.ordered)return;state.ordered=true;const button=$('#order-button');button.innerHTML='Ёлка ваша ✓';$('.delivery-days [data-day="27"]').classList.add('yours');const field=$('#spark-field');for(let i=0;i<28;i++){const spark=document.createElement('i');spark.className='spark';const a=Math.random()*Math.PI*2,r=35+Math.random()*130;spark.style.setProperty('--dx',Math.cos(a)*r+'px');spark.style.setProperty('--dy',Math.sin(a)*r+'px');field.append(spark);setTimeout(()=>spark.remove(),950);}}
 function showHero(){if(window.gsap){
   gsap.from('.massive .w b',{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out',delay:.35});
+  // Низ экрана выезжает одним блоком: белая панель и цена, следом ёлка в сетке и кнопка.
+  gsap.from('.hero .hero-panel, .hero .price',{yPercent:110,duration:.9,ease:'power3.out',stagger:.12,delay:1.55});
+  gsap.from('.hero .price .species-dots img',{scale:0,duration:.45,ease:'back.out(2)',stagger:.08,delay:2.2});
   gsap.from('.hero .delivery img',{y:120,rotate:8,opacity:0,duration:.9,ease:'back.out(1.6)',delay:1.85});
   gsap.from('.hero .delivery a',{opacity:0,duration:.5,delay:2.2});
   gsap.from('.hero-cta',{opacity:0,scale:.7,duration:.6,ease:'back.out(2)',delay:2.05});
   gsap.from('.hero .callout',{opacity:0,x:i=>i?40:-40,delay:2.1,duration:.7});
   gsap.from('.hero .callout i',{scaleX:0,transformOrigin:i=>i?'right center':'left center',delay:2.3,duration:.7});
-}}
+}document.documentElement.classList.remove('intro');}
 // Поэкранный скролл: колесо, свайп и клавиши листают по одному экрану, ролик экрана проигрывается при входе.
 const SLIDE_MS=950, WHEEL_COOLDOWN=450;
 const SCENE_CLIPS={hero:{key:'grow',duration:3.2,ease:'none'},wrap:{key:'wrap',duration:2.4,ease:'power1.inOut'},order:{key:'room',duration:2.8,ease:'power1.inOut'}};

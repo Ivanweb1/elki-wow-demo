@@ -198,3 +198,5 @@ html.fp .scene input[type=range]{touch-action:pan-x}
 .fp-dots button:hover{border-color:var(--gold)}
 .fp-dots button.on{background:var(--gold);border-color:var(--gold);transform:scale(1.25)}
 @media(prefers-reduced-motion:reduce){html.fp main{transition-duration:.01s}}
+/* до старта интро элементы первого экрана скрыты, чтобы не мигали */
+html.intro .hero .massive,html.intro .hero .hero-panel,html.intro .hero .price,html.intro .hero .delivery,html.intro .hero .hero-cta,html.intro .hero .callout,html.intro .hero .scene-canvas{visibility:hidden}
