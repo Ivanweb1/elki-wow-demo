@@ -102,7 +102,7 @@ function setupScroll(){
   gsap.registerPlugin(ScrollTrigger);
   [['#wrap','wrap'],['#order','room']].forEach(([selector,key])=>{
     ScrollTrigger.create({trigger:selector,start:'top top',end:'+=110%',pin:true,scrub:true,onUpdate:self=>{
-      if(demoMode)return;state[key]=self.progress;if(key==='room')$(selector).classList.toggle('warm',self.progress>.38);render();
+      if(demoMode)return;state[key]=self.progress;if(key==='room')$(selector).classList.toggle('warm',self.progress>.52);render();
     }});
   });
   gsap.from('.height .species-item, .height .price-panel, .height .range-wrap',{scrollTrigger:{trigger:'#height',start:'top 65%'},opacity:0,y:22,stagger:.09,duration:.7});
@@ -119,7 +119,7 @@ function demo(){
     state.wrap=clamp((t-DEMO_TIMES.growEnd)/(DEMO_TIMES.wrapEnd-DEMO_TIMES.growEnd));
     state.room=clamp((t-DEMO_TIMES.heightEnd)/(DEMO_TIMES.roomEnd-DEMO_TIMES.heightEnd));
     if(t>=DEMO_TIMES.wrapEnd&&t<DEMO_TIMES.heightEnd)setHeight(Math.round(120+90*ease((t-DEMO_TIMES.wrapEnd)/(DEMO_TIMES.heightEnd-DEMO_TIMES.wrapEnd))));
-    if(t>=DEMO_TIMES.heightEnd)$('#order').classList.toggle('warm',t<DEMO_TIMES.orderEnd);
+    if(t>=DEMO_TIMES.heightEnd)$('#order').classList.toggle('warm',t<DEMO_TIMES.orderEnd&&state.room>.52);
     if(t>=DEMO_TIMES.roomEnd&&!state.ordered)order();
     if(t>=DEMO_TIMES.orderEnd&&!returnStarted){returnStarted=true;$('#hero .hero-cta').style.transform='translateX(-50%)';scrollTo({top:0,behavior:'smooth'});$('#order').classList.remove('warm');}
     render();if(t<DEMO_TIMES.returnEnd)requestAnimationFrame(tick);
