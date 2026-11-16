@@ -200,3 +200,6 @@ html.fp .scene input[type=range]{touch-action:pan-x}
 @media(prefers-reduced-motion:reduce){html.fp main{transition-duration:.01s}}
 /* до старта интро элементы первого экрана скрыты, чтобы не мигали */
 html.intro .hero .massive,html.intro .hero .hero-panel,html.intro .hero .price,html.intro .hero .delivery,html.intro .hero .hero-cta,html.intro .hero .callout,html.intro .hero .scene-canvas{visibility:hidden}
+/* правая линия подписи без зеркала: иначе анимация scaleX сбивает отражение */
+.callout-right i{transform:none;background:linear-gradient(270deg,rgba(194,210,200,.15),#c2d2c8)}
+.callout-right i::after{right:auto;left:-7px}
