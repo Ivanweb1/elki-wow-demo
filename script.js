@@ -1,3 +1,4 @@
+if('scrollRestoration' in history)history.scrollRestoration='manual';
 const DEMO_TIMES = Object.freeze({ growEnd: 3, wrapEnd: 5.5, heightEnd: 8, roomEnd: 11, orderEnd: 12, returnEnd: 13 });
 const PRICE_POINTS = [[120,3900],[150,4900],[180,5900],[210,7400],[250,9900]];
 const POSTERS = ['frames/0-sprout.png','frames/1-tree.png','frames/2-net.png','frames/3-room.png'];
@@ -42,8 +43,26 @@ function drawScene(id,key,from,to,progress) {
   const frames=sequences[key];
   if(frames && frames.length){drawImage(ctx,frames[Math.min(frames.length-1,Math.floor(clamp(progress)*frames.length))],w,h);return;}
   const p=ease(progress);
+  if(key==='grow'){drawGrow(ctx,images[from],images[to],w,h,progress);return;}
   drawImage(ctx,images[from],w,h,1,1+p*.035);
   drawImage(ctx,images[to],w,h,p,1+(1-p)*.035);
+}
+// Запасной рост без ролика: росток гаснет, ёлка поднимается от основания и проявляется снизу вверх.
+const growLayer=document.createElement('canvas');
+function drawGrow(ctx,sprout,tree,w,h,progress){
+  if(!w||!h)return;
+  const t=clamp(progress), p=ease(t);
+  drawImage(ctx,sprout,w,h,1-clamp(t*1.4));
+  if(!tree)return;
+  growLayer.width=w;growLayer.height=h;const g=growLayer.getContext('2d');
+  const iw=tree.naturalWidth,ih=tree.naturalHeight,s0=Math.min(w/iw,h/ih),dw=iw*s0,dh=ih*s0,x=(w-dw)/2,y=(h-dh)/2;
+  const base=y+dh*.9,k=.55+.45*p;
+  g.drawImage(tree,(w-dw*k)/2,base-(base-y)*k,dw*k,dh*k);
+  const top=base-(base-y)*k, edge=top+(base-top)*(1-clamp(t*1.25)), fade=h*.12;
+  g.globalCompositeOperation='destination-in';
+  const grad=g.createLinearGradient(0,edge-fade,0,edge+fade);grad.addColorStop(0,'rgba(0,0,0,0)');grad.addColorStop(1,'#000');
+  g.fillStyle=grad;g.fillRect(0,0,w,h);g.globalCompositeOperation='source-over';
+  ctx.drawImage(growLayer,0,0);
 }
 function render() {
   drawScene('#canvas-grow','grow',0,1,state.grow);
@@ -69,7 +88,16 @@ function setupPicker(){
 }
 function setupDays(){const busy=new Set([22,24,25,28,29,30,31]);$('.delivery-days').innerHTML=Array.from({length:12},(_,i)=>{const day=i+20;return `<span data-day="${day}" class="${busy.has(day)?'busy':''}">${day}</span>`}).join('');}
 function order(){if(state.ordered)return;state.ordered=true;const button=$('#order-button');button.innerHTML='Ёлка ваша ✓';$('.delivery-days [data-day="27"]').classList.add('yours');const field=$('#spark-field');for(let i=0;i<28;i++){const spark=document.createElement('i');spark.className='spark';const a=Math.random()*Math.PI*2,r=35+Math.random()*130;spark.style.setProperty('--dx',Math.cos(a)*r+'px');spark.style.setProperty('--dy',Math.sin(a)*r+'px');field.append(spark);setTimeout(()=>spark.remove(),950);}if(!demoMode&&!capture){setTimeout(()=>{$('#order').classList.remove('warm');state.room=0;render();},1250);}}
-function showHero(){if(window.gsap){gsap.from('.massive span',{yPercent:110,opacity:0,stagger:.13,duration:1.15,ease:'power3.out'});gsap.from('.hero .callout',{opacity:0,x:i=>i?30:-30,delay:1.45,duration:.65});gsap.from('.hero .corner-card, .hero-cta',{opacity:0,y:25,delay:1.9,stagger:.12,duration:.65});}}
+function showHero(){if(window.gsap){
+  gsap.from('.massive .w b',{yPercent:115,stagger:.14,duration:1.1,ease:'power3.out',delay:.35});
+  gsap.from('.hero-panel',{yPercent:100,duration:.9,ease:'power3.out',delay:1.5});
+  gsap.from('.hero .price',{yPercent:100,duration:.9,ease:'power3.out',delay:1.7});
+  gsap.from('.hero .delivery img',{y:120,rotate:8,opacity:0,duration:.9,ease:'back.out(1.6)',delay:1.85});
+  gsap.from('.hero .delivery a',{opacity:0,duration:.5,delay:2.2});
+  gsap.from('.hero-cta',{opacity:0,scale:.7,duration:.6,ease:'back.out(2)',delay:2.05});
+  gsap.from('.hero .callout',{opacity:0,x:i=>i?40:-40,delay:2.1,duration:.7});
+  gsap.from('.hero .callout i',{scaleX:0,transformOrigin:i=>i?'right center':'left center',delay:2.3,duration:.7});
+}}
 function setupScroll(){
   if(!window.gsap||!window.ScrollTrigger)return;
   gsap.registerPlugin(ScrollTrigger);
